@@ -106,8 +106,8 @@ function Scene({ isMobile }) {
       gravity={[0, -40, 0]}
       timeStep={1 / 60}
     >
-      {/* hanya desktop */}
-      {!isMobile && <Band isMobile={isMobile} />}
+      {/* Card renders on all screen sizes; dragging is disabled on mobile separately */}
+      <Band isMobile={isMobile} />
     </Physics>
   );
 }

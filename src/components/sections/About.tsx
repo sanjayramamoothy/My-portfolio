@@ -101,23 +101,23 @@ export default function About() {
 
   if (isMobile === null) return null;
 
- const stats = [
-  {
-    icon: <Award size={16} />,
-    value: String(certificateCount),
-    title: "CERTIFICATES",
-  },
-  {
-    icon: <Code size={16} />,
-    value: String(projectCount),
-    title: "PROJECTS",
-  },
-  {
-    icon: <Globe size={16} />,
-    value: String(projectCount + certificateCount),
-    title: "COMPLETED WORKS",
-  },
-];
+  const stats = [
+    {
+      icon: <Award size={16} />,
+      value: String(certificateCount),
+      title: "CERTIFICATES",
+    },
+    {
+      icon: <Code size={16} />,
+      value: String(projectCount),
+      title: "PROJECTS",
+    },
+    {
+      icon: <Globe size={16} />,
+      value: String(projectCount + certificateCount),
+      title: "COMPLETED WORKS",
+    },
+  ];
 
   return (
     <section
@@ -312,40 +312,39 @@ export default function About() {
           </motion.div>
 
           {/* IMAGE */}
-          {!isMobile && (
-            <motion.div
-              variants={slideLeft}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false }}
+          <motion.div
+            variants={slideLeft}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false }}
+            style={{
+              width: isMobile ? "100%" : "48%",
+              display: "flex",
+              justifyContent: isMobile ? "center" : "flex-end",
+              marginTop: isMobile ? 24 : 0,
+            }}
+          >
+            <div
               style={{
-                width: "48%",
-                display: "flex",
-                justifyContent: "flex-end",
+                padding: 12,
+                borderRadius: "50%",
+                border: "1px solid var(--border)",
+                transform: isMobile ? "none" : "translateX(-80px)",
               }}
             >
-              <div
+              <img
+                src="/assets/PP.png"
+                alt="Profile"
                 style={{
-                  padding: 12,
+                  width: isMobile ? 180 : 240,
+                  height: isMobile ? 180 : 240,
                   borderRadius: "50%",
-                  border: "1px solid var(--border)",
-                  transform: "translateX(-80px)",
+                  objectFit: "cover",
+                  display: "block",
                 }}
-              >
-                <img
-                  src="/assets/PP.png"
-                  alt="Profile"
-                  style={{
-                    width: 240,
-                    height: 240,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-              </div>
-            </motion.div>
-          )}
+              />
+            </div>
+          </motion.div>
         </div>
 
         {/* CARDS */}
