@@ -2,6 +2,7 @@
 import './index.css';
 import * as THREE from 'three';
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Canvas, extend, useThree, useFrame } from '@react-three/fiber';
 import {
   useGLTF,
@@ -27,6 +28,80 @@ const TEXTURE_PATH = '/assets/bandd.png';
 useGLTF.preload(GLTF_PATH);
 useTexture.preload(TEXTURE_PATH);
 
+// Lightweight, dependency-free card shown on mobile instead of the full
+// WebGL physics scene — avoids GPU/WASM compatibility issues on phones
+// while still showing a swinging identity card with the same photo.
+function MobileCard() {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: '4%',
+        right: '6%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        pointerEvents: 'none',
+      }}
+    >
+      <div
+        style={{
+          width: 8,
+          height: 70,
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.1))',
+          borderRadius: 4,
+        }}
+      />
+
+      <motion.div
+        animate={{ rotate: [-6, 6, -6] }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        style={{
+          transformOrigin: 'top center',
+          width: 130,
+          borderRadius: 18,
+          overflow: 'hidden',
+          border: '1px solid rgba(255,255,255,0.15)',
+          background: '#111',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.45)',
+        }}
+      >
+        <img
+          src="/assets/card-front.png"
+          alt="Sanjay Ramamoorthy"
+          style={{ width: '100%', display: 'block' }}
+        />
+        <div style={{ padding: '8px 10px', textAlign: 'center' }}>
+          <p
+            style={{
+              color: '#fff',
+              fontSize: 12,
+              fontWeight: 700,
+              margin: 0,
+            }}
+          >
+            Sanjay Ramamoorthy
+          </p>
+          <p
+            style={{
+              color: 'rgba(255,255,255,0.5)',
+              fontSize: 9,
+              margin: '2px 0 0',
+            }}
+          >
+            Frontend Developer
+          </p>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -36,6 +111,10 @@ export default function App() {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  if (isMobile) {
+    return <MobileCard />;
+  }
 
   return (
     <div
